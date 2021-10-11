@@ -1,0 +1,3 @@
+function customSlice() {
+    return;
+}
