@@ -1,3 +1,3 @@
-function customSlice() {
-    return;
+function customSlice(start, end) {
+    
 }
