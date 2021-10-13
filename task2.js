@@ -6,7 +6,7 @@ function toAcronym(sentence) {
         acronymArr.push(splitSentence[i].charAt(0));
     }
 
-    return acronymArr.join('').toUpperCase();
+    return acronymArr.join("").toUpperCase();
 } 
 
 console.log(toAcronym("Prisoner of War"));
