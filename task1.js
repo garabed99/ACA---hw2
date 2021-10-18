@@ -45,9 +45,35 @@ Array.prototype.customSlice = function (start, end) {
 // console.log(animals.customSlice(2, -1)); // expected output: Array ["camel", "duck"]
 
 Array.prototype.customSplice = function (start, deleteCount, ...item) {
-  const data = this;
-  let newArray = [];
+  if (start > this.length) {
+    start = this.length;
+  }
+  if (start < 0) {
+    start = this.length - start;
+  }
+  if (start === -Infinity) {
+    start = 0;
+  }
+  //if(deleteCount === undefined || deleteCount > this.length - start)
+  //[ (first chunk),  (removed chunk),    (last chunk)]
+
+  let firstChunk = this.slice(0, start);
+  let lastChunk = this.slice(start + deleteCount);
+  let removedChunk = this.slice(start, start + deleteCount);
+  let updatedArr = firstChunk.concat(item, lastChunk);
+
+  for (let i = 0; i < updatedArr.length; i++) {
+    this[i] = updatedArr[i];
+  }
+
+  this.length = updatedArr.length;
+  return removedChunk;
 };
+
+// let myFish = ["angel", "clown", "mandarin", "sturgeon"];
+// let removed = myFish.customSplice(2, 0, "drum");
+// console.log(myFish); // myFish is ["angel", "clown", "drum", "mandarin", "sturgeon"]
+// console.log(removed); // removed is [], no elements removed
 
 Array.prototype.customFind = function (callback) {
   for (let i = 0; i < this.length; i++) {
@@ -136,7 +162,7 @@ Array.prototype.reducer = function (callback, initialValue) {
     accumulator = callback(accumulator, this[i]);
   }
   if (accumulator == undefined && initialValue == undefined) {
-    throw new Error("Type Error");
+    throw new TypeError();
   }
 
   return accumulator;
